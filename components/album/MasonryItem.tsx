@@ -146,8 +146,8 @@ export default function MasonryItem() {
             <p>{MasonryViewData.title}</p>
           </div>
         </div>
-        <div className="h-full flex flex-col space-y-2 md:grid md:gap-2 md:grid-cols-3 xl:gap-4">
-          <div className="md:col-span-2 md:flex md:justify-center md:max-h-[90vh]">
+        <div className="h-full flex flex-col space-y-2 md:grid md:gap-2 md:grid-cols-4 xl:gap-4">
+          <div className="md:col-span-3 md:flex md:justify-center md:max-h-[90vh]">
             {
               MasonryViewData.type === 1 ?
                 <img
