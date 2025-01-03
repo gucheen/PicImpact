@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { HandleProps, ImageHandleProps, ImageType } from '~/types'
 import { MasonryPhotoAlbum, RenderImageContext, RenderImageProps } from 'react-photo-album'
 import { useSWRPageTotalHook } from '~/hooks/useSWRPageTotalHook'
@@ -46,7 +46,11 @@ export default function Masonry(props : Readonly<ImageHandleProps>) {
     args: 'system-config',
   }
   const { data: configData } = useSWRHydrated(configProps)
-  const dataList = data ? [].concat(...data) : [];
+  const dataList = useMemo(() => Array.isArray(data) ? data.flat().map(item => ({
+    src: item.preview_url || item.url,
+    alt: item.detail,
+    ...item,
+  })) : [], [data]);
   const searchParams = useSearchParams()
   const t = useTranslations()
 
@@ -98,13 +102,7 @@ export default function Masonry(props : Readonly<ImageHandleProps>) {
           if (containerWidth < 1024) return 3;
           return 4;
         }}
-        photos={
-          dataList?.map((item: ImageType) => ({
-            src: item.preview_url || item.url,
-            alt: item.detail,
-            ...item
-          })) || []
-        }
+        photos={dataList}
         render={{image: (...args) => renderNextImage(...args, dataList)}}
       />
       <div className="flex items-center justify-center my-4">
