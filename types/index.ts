@@ -35,6 +35,7 @@ export type AlbumType = {
   sort: number;
   allow_download: number;
   license: string;
+  image_sorting: number;
 }
 
 export type ExifType = {
@@ -77,6 +78,7 @@ export type ImageType = {
   album_allow_download: number; // 映射自相册下载权限
   album_license: string;
   copyrights: any[];
+  exif_data_time: Date;
 }
 
 export type CopyrightType = {
