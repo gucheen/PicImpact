@@ -16,7 +16,8 @@
     "prisma:generate": "npx prisma generate",
     "prisma:dev": "npx prisma migrate dev",
     "prisma:deploy": "npx prisma migrate deploy",
-    "prebuild": "npx prisma generate"
+    "prebuild": "npx prisma generate",
+    "data-migration:images_sorting_in_albums": "tsx ./prisma/migrations/20250103094031_images_sorting_in_album/data-migration.ts"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",
