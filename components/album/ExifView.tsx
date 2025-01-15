@@ -91,6 +91,13 @@ export default function ExifView(props: Readonly<DataProps>) {
             </TableRow>
           }
           {
+            props.data?.exif?.focal_length_in_35mm_film &&
+            <TableRow key="focal_length_in_35mm_film">
+              <TableCell className="font-medium">35mm 等效焦距</TableCell>
+              <TableCell className="truncate max-w-48">{props.data?.exif?.focal_length_in_35mm_film}</TableCell>
+            </TableRow>
+          }
+          {
             props.data?.exif?.lens_specification &&
             <TableRow key="lens_specification">
               <TableCell className="font-medium">镜头规格</TableCell>
