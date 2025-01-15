@@ -80,6 +80,7 @@ export default function FileUpload() {
         cfa_pattern: '',
         color_space: '',
         white_balance: '',
+        focal_length_in_35mm_film: '',
       } as ExifType
       exifObj.make = tags?.Make?.description
       exifObj.model = tags?.Model?.description
@@ -97,6 +98,18 @@ export default function FileUpload() {
       exifObj.cfa_pattern = tags?.CFAPattern?.description
       exifObj.color_space = tags?.ColorSpace?.description
       exifObj.white_balance = tags?.WhiteBalance?.description
+      const FocalLengthIn35mmFilm = tags?.FocalLengthIn35mmFilm?.description
+      if (typeof tags?.FocalLength?.description === 'string') {
+        const FocalLength = tags.FocalLength.description.match(/[\d\.]+/g)
+        if (Array.isArray(FocalLength) && FocalLength.length > 0) {
+          if (typeof FocalLengthIn35mmFilm === 'number') {
+            if (parseFloat(FocalLength[0]) !== FocalLengthIn35mmFilm) {
+              // 需要计算等效焦距
+              exifObj.focal_length_in_35mm_film = `${FocalLengthIn35mmFilm} mm`
+            }
+          }
+        }
+      }
       setExif(exifObj)
       if (tags?.GPSLatitude?.description) {
         setLat(tags?.GPSLatitude?.description)
