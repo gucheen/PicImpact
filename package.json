@@ -16,7 +16,8 @@
     "prisma:generate": "npx prisma generate",
     "prisma:dev": "npx prisma migrate dev",
     "prisma:deploy": "npx prisma migrate deploy",
-    "prebuild": "npx prisma generate"
+    "prebuild": "npx prisma generate",
+    "data-migration:focal_length_in_35mm_film": "node prisma/20250115104200_focal_length_in_35mm_film/data-migration.js"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",

@@ -54,6 +54,7 @@ export type ExifType = {
   cfa_pattern: any;
   color_space: any;
   white_balance: any;
+  focal_length_in_35mm_film?: string;
 }
 
 export type ImageType = {
