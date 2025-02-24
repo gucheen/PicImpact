@@ -301,7 +301,7 @@ export default function MasonryItem() {
                           <div className="flex flex-col items-center justify-center w-full">
                             <Crosshair size={20}/>
                             <p
-                              className="text-tiny uppercase font-bold select-none">{MasonryViewData?.exif?.focal_length}</p>
+                              className="text-tiny uppercase font-bold select-none">{MasonryViewData?.exif?.focal_length_in_35mm_film ? MasonryViewData?.exif?.focal_length_in_35mm_film : MasonryViewData?.exif?.focal_length}</p>
                           </div>
                           <div className="flex flex-col items-center justify-center w-full">
                             <CircleGauge size={20}/>
