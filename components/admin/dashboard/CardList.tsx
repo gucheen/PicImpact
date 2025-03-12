@@ -8,9 +8,9 @@ import {
 } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 import { Progress } from '~/components/ui/progress'
-import { DataProps } from '~/types'
+import { AnalysisDataProps } from '~/types'
 import Link from 'next/link'
-import { MessageSquareHeart, Star } from 'lucide-react'
+import { MessageSquareHeart, Star, Send } from 'lucide-react'
 import Counter from '~/components/animata/text/counter'
 import {
   Table,
@@ -23,7 +23,7 @@ import {
 import { useTranslations } from 'next-intl'
 import { ScrollArea } from "~/components/ui/scroll-area"
 
-export default function CardList(props: Readonly<DataProps>) {
+export default function CardList(props: Readonly<AnalysisDataProps>) {
   const t = useTranslations()
 
   return (
@@ -95,6 +95,12 @@ export default function CardList(props: Readonly<DataProps>) {
                 <MessageSquareHeart size={20} className="mr-1"/>{t('Button.issue')}
               </Button>
             </Link>
+            <Link href="https://ziyume.com/docs/pic" target="_blank">
+              <Button variant="link">
+                <Send />
+                文档
+              </Button>
+            </Link>
           </CardContent>
         </Card>
         <Card className="h-full w-full border">
@@ -120,6 +126,7 @@ export default function CardList(props: Readonly<DataProps>) {
                         <Counter 
                           targetValue={Number(stat.count)}
                           fontStyle="text-sm font-normal text-foreground"
+                          animated={false}
                         />
                       </TableCell>
                     </TableRow>

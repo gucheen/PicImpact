@@ -66,7 +66,7 @@ export default function Masonry(props : Readonly<ImageHandleProps>) {
       const value = configData?.find((item: any) => item.config_key === 'custom_index_download_enable')?.config_value
       setCustomIndexDownloadEnable(value.toString() === 'true')
     }
-  }, configData)
+  }, [configData])
 
   useEffect(() => {
     const fetchData = async (id: string) => {
@@ -84,7 +84,6 @@ export default function Masonry(props : Readonly<ImageHandleProps>) {
           toast.warning(res.message)
         }
       } catch (error) {
-        console.log(error)
         toast.error('图片获取错误，请重试！')
       }
     };

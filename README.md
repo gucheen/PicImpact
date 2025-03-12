@@ -8,13 +8,7 @@ PicImpact
   <img src="https://img.shields.io/github/repo-size/besscroft/PicImpact?style=flat-square&color=328657" alt="存储库大小">
 </p>
 
-<p align="center">
-    <img src=picimpact.jpg width=384 />
-</p>
-
-PicImpact 是一个摄影师专用的摄影作品展示网站，基于 Next.js + Hono.js 开发。
-
-> 注：这是个很艰难的决定，v2 版本与 v1 版本不兼容，您需要重新配置数据库。[迁移脚本](./scripts/migrate/)
+PicImpact 是一个支持自部署的摄影师专用的摄影作品展示网站，基于 Next.js + Hono.js 开发。
 
 ### 功能特性
 
@@ -36,6 +30,8 @@ PicImpact 是一个摄影师专用的摄影作品展示网站，基于 Next.js +
 
 你可以点击下面的按钮来一键部署到 Vercel，**然后将 `Build Command` 设置为 `pnpm run build:vercel`**，也可以 Fork 项目后手动部署到任何支持的平台。
 
+> 我们推荐当新版本发布时您再进行版本更新！
+
 <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fbesscroft%2FPicImpact&env=DATABASE_URL,AUTH_SECRET"><img src="https://vercel.com/button" alt="Deploy with Vercel"/></a>
 
 | Key          | 备注                                                                                           |
@@ -45,138 +41,13 @@ PicImpact 是一个摄影师专用的摄影作品展示网站，基于 Next.js +
 
 默认账号：`admin@qq.com`，默认密码：`666666`，**登录后请先去设置里面修改密码！**
 
-> 部署就是这么简单，只需要您准备一个干净的数据库就行！
-> 除了容器化部署方式外，其它的部署方式都需要执行 `pnpm run prisma:deploy` 来完成 prisma 迁移。
+> 请根据您的数据库供应商来填写正确的数据库 `connect url`。
 >
 > 如果是 Vercel 部署，直接将 `Build Command` 设置为 `pnpm run build:vercel` 即可。
 >
 > 如果您自行使用 node 部署，请使用 `pnpm run build:node` 命令来构建。
 
-### 容器化部署
-
-你可以使用 Docker 来部署 PicImpact，当然 containerd 和 k8s 也是可以的。
-
-```shell
-docker run -d --name picimpact \
-  -p 3000:3000 \
-  -e DATABASE_URL="postgresql://[用户名]:[密码]@[地址和端口]/[数据库]" \
-  -e AUTH_SECRET="自己运行npx auth secret或一串随机的字符串都行" \
-  besscroft/picimpact:latest
-```
-
-> 注意：如果您使用 `Docker Compose`，存在无法访问数据库的问题，请尝试将环境变量的双引号去掉。即 `DATABASE_URL="连接信息"` -> `DATABASE_URL=连接信息`。
-
-### 存储配置
-
-> 暂时提供了 AWS S3 API、Cloudflare R2、AList API 支持，您在部署成功后，可以去 `设置` -> `存储` 进行管理。
-> 
-> 原则上优先支持 Cloudflare R2 和 AWS S3 API。
-
-我比较推荐 Cloudflare R2，算是很良心的了，流量免费。
-
-- Cloudflare R2 配置<details><summary>查看详情</summary>
-  <table>
-    <thead>
-      <tr>
-        <th>Key</th>
-        <th>备注</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>r2_accesskey_id</td>
-        <td>Cloudflare AccessKey_ID</td>
-      </tr>
-      <tr>
-        <td>r2_accesskey_secret</td>
-        <td>Cloudflare AccessKey_Secret</td>
-      </tr>
-      <tr>
-        <td>r2_endpoint</td>
-        <td>Cloudflare Endpoint 地域节点，如：<b>https://{ACCOUNT_ID}.r2.cloudflarestorage.com</b></td>
-      </tr>
-      <tr>
-        <td>r2_bucket</td>
-        <td>Cloudflare Bucket 存储桶名称，如：<b>picimpact</b></td>
-      </tr>
-      <tr>
-        <td>r2_storage_folder</td>
-        <td>存储文件夹(Cloudflare R2)，严格格式，如：<b>picimpact</b> 或 <b>picimpact/images</b> ，填 <b>/</b> 或者不填表示根路径</td>
-      </tr>
-      <tr>
-        <td>r2_public_domain</td>
-        <td>Cloudflare R2 自定义域（公开访问）</td>
-      </tr>
-    </tbody>
-  </table></details>
-
-- AWS S3 配置<details><summary>查看详情</summary>
-  <table>
-    <thead>
-      <tr>
-        <th>Key</th>
-        <th>备注</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>accesskey_id</td>
-        <td>阿里 OSS / AWS S3 AccessKey_ID</td>
-      </tr>
-      <tr>
-        <td>accesskey_secret</td>
-        <td>阿里 OSS / AWS S3 AccessKey_Secret</td>
-      </tr>
-      <tr>
-        <td>region</td>
-        <td>阿里 OSS / AWS S3 Region 地域，如：<b>oss-cn-hongkong</b></td>
-      </tr>
-      <tr>
-        <td>endpoint</td>
-        <td>阿里 OSS / AWS S3 Endpoint 地域节点，如：<b>oss-cn-hongkong.aliyuncs.com</b></td>
-      </tr>
-      <tr>
-        <td>bucket</td>
-        <td>阿里 OSS / AWS S3 Bucket 存储桶名称，如：<b>picimpact</b></td>
-      </tr>
-      <tr>
-        <td>storage_folder</td>
-        <td>存储文件夹(S3)，严格格式，如：<b>picimpact</b> 或 <b>picimpact/images</b> ，填 <b>/</b> 或者不填表示根路径</td>
-      </tr>
-      <tr>
-        <td>force_path_style</td>
-        <td>是否强制客户端对桶使用路径式寻址，默认 <b>false</b>，如您使用 minio 作为 s3 存储，需要设置为 <b>true</b></td>
-      </tr>
-      <tr>
-        <td>s3_cdn</td>
-        <td>是否启用 S3 CDN 模式，路径将返回 cdn 地址，默认 false。</td>
-      </tr>
-      <tr>
-        <td>s3_cdn_url</td>
-        <td>cdn 地址，如：<b>https://cdn.example.com</b></td>
-      </tr>
-    </tbody>
-  </table></details>
-
-- AList API 配置<details><summary>查看详情</summary>
-  <table>
-    <thead>
-      <tr>
-        <th>Key</th>
-        <th>备注</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>alist_token</td>
-        <td>alist 令牌</td>
-      </tr>
-      <tr>
-        <td>alist_url</td>
-        <td>AList 地址，如：<b>https://alist.example.com</b></td>
-      </tr>
-    </tbody>
-  </table></details>
+更多详细配置请查阅[文档](https://ziyume.com/docs/pic)
 
 ### 本地开发
 
@@ -198,9 +69,9 @@ pnpm run dev
 
 PicImpact 欢迎各种贡献，包括但不限于改进，新功能，文档和代码改进，问题和错误报告。
 
-`v1` 目前停止维护。
+`v1` 版本目前停止维护，代码归档在 `v1` 分支。
 
-`v2` 分支开发下一个版本，同时接受 `PR`！
+目前正在开发 v2 版本，同时接受 `PR`！
 
 > 有需求和建议都可以提，有空的话我会处理，但受限于 Next / SSR 的⌈局限性⌋，以及照顾移动端使用体验，很多功能的设计上可能会有取舍。
 
